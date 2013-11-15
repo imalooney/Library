@@ -8,6 +8,7 @@ class Library
   end
 
   def list_books
+    @books.each 
     # neatly list name of books with author and their status
   end
 
@@ -26,13 +27,28 @@ class Library
   end
 
   def check_out(user, book)
+    if user.borrowed_books.length == 2
+      return "Sorry, that user already had two books checked out."
+    end  
+
+    if book.status == "available"
+      book.borrower = user
+      book.status = "checked out"
+    else 
+      puts "Sorry, that book is not available"
+    end
+
+    # if (@books.include?(book)) 
+    #   puts "#{book} is available for checkout to #{user}."
     # if book is still in library proceed with check out
     # else return, "That book is already checked out"
     #   or just return status of book
     # if Borrower has less than 2 books, check out book
+
     # and add to borrower's borrowed_books
     # If Borrower already has 2 books, do not allow check out and 
     # do not change status
+    # end
 
   end
 
@@ -43,17 +59,20 @@ end
 class Borrower
   def initialize(name)
     @name = name
+    @books = []
   end
 
   def borrowed_books
-
+    @borrowed_books = []
     #cannot contain more that two items in hash
   end
 
   def name
+    @name   #makes Borrower.name accessible throughout
   end
 
   def borrowed_books_count
+    @borrowed_books.length
   end
 
   def borrowed_books_list
@@ -62,12 +81,22 @@ class Borrower
 end
 
 class Book
-  attr_reader :title
-  attr_reader :author
+  attr_reader :title  #makes Book.title accessible throughout
+  attr_reader :author #makes Book.author accessible throughout
 
   def initialize(title, author)
     @title = title
     @author = author
+    @status = "available"
+    @borrower = nil
+  end
+
+  def status=(new_value)
+    @status = new_value
+  end
+
+  def borrower=(new_value)
+    @borrower = new_value
   end
 
 end
