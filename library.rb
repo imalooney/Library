@@ -18,6 +18,11 @@ class Library
   end
 
   def available_books
+    @books.each { |book| 
+    if book.status == "available"
+      puts book.title + " is the only book currently available."
+    end
+    }
     # show only those books with a status of checked_in
   end
 
@@ -28,16 +33,18 @@ class Library
   end
 
   def check_out(user, book)
+    # user = book.borrower
     if user.borrowed_books.length == 2
-      return "Sorry, that user already had two books checked out."
+      return puts "Sorry, that user already has two books checked out!"
     end  
 
     if book.status == "available"
       book.borrower = user
       book.status = "checked out"
-      # borrower.borrowed_books << book
+      user.borrowed_books << book
+      puts "#{user.name} has checked out #{book.title} by #{book.author}."
     else 
-      puts "Sorry, that book is not available"
+      puts "Sorry, that book is not available!"
     end
 
     # if (@books.include?(book)) 
@@ -63,10 +70,11 @@ class Borrower
   def initialize(name)
     @name = name
     @books = []
+    @borrowed_books = []
   end
 
   def borrowed_books
-    @borrowed_books = []
+    @borrowed_books
     #cannot contain more that two items in hash
   end
 
@@ -79,6 +87,7 @@ class Borrower
   end
 
   def borrowed_books_list
+
     # neatly list items in borrowed_books
   end
 end
