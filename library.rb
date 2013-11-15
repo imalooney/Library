@@ -14,13 +14,18 @@ class Library
   end
 
   def borrowed_books
+    @books.each { |book| 
+    if book.status == "checked out"
+      puts book.title + " is currently checked out by #{book.borrower.name}."
+    end
+    }
     # show list of books with their borrowers
   end
 
   def available_books
     @books.each { |book| 
     if book.status == "available"
-      puts book.title + " is the only book currently available."
+      puts book.title + " is currently available."
     end
     }
     # show only those books with a status of checked_in
