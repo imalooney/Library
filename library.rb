@@ -8,7 +8,8 @@ class Library
   end
 
   def list_books
-    @books.each 
+    @books.each { |book| puts book.title + " by " + book.author + " is " + book.status}
+      
     # neatly list name of books with author and their status
   end
 
@@ -34,6 +35,7 @@ class Library
     if book.status == "available"
       book.borrower = user
       book.status = "checked out"
+      # borrower.borrowed_books << book
     else 
       puts "Sorry, that book is not available"
     end
@@ -57,6 +59,7 @@ class Library
 end
 
 class Borrower
+
   def initialize(name)
     @name = name
     @books = []
@@ -83,6 +86,8 @@ end
 class Book
   attr_reader :title  #makes Book.title accessible throughout
   attr_reader :author #makes Book.author accessible throughout
+  # attr_accessor :status #makes Book.status accessible throughout
+  # attr_accessor :borrower #makes Book.borrower accessible throughout
 
   def initialize(title, author)
     @title = title
@@ -91,8 +96,16 @@ class Book
     @borrower = nil
   end
 
+  def status
+    @status
+  end
+
   def status=(new_value)
     @status = new_value
+  end
+
+  def borrower
+    @borrower
   end
 
   def borrower=(new_value)
