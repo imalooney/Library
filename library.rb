@@ -1,10 +1,8 @@
 class Library
+  attr_accessor :books
+
   def initialize
     @books = []
-  end
-
-  def books
-    @books
   end
 
   def list_books
@@ -13,13 +11,12 @@ class Library
     # neatly list name of books with author and their status
   end
 
-  def borrowed_books
+  def borrowed_books # show list of books with their borrowers
     @books.each { |book| 
     if book.status == "checked out"
       puts book.title + " is checked out by #{book.borrower.name}."
     end
     }
-    # show list of books with their borrowers
   end
 
   def available_books
@@ -63,20 +60,13 @@ class Library
 end
 
 class Borrower
+  attr_reader :name
+  attr_accessor :borrowed_books
 
   def initialize(name)
     @name = name
     @books = []
     @borrowed_books = []
-  end
-
-  def borrowed_books
-    @borrowed_books
-    #cannot contain more that two items in hash
-  end
-
-  def name
-    @name   #makes Borrower.name accessible throughout
   end
 
   def borrowed_books_count
