@@ -55,10 +55,9 @@ class Library
   end
 
   def check_in(book)
-    book_index = @books.find_index(book)  #find index of book being checked in
-    @books.delete_at(book_index)  #delete book from books array
+    book.borrower.borrowed_books.delete(book)
     book.status = "available"
-    #delete book from borrower's books
+    book.borrower = nil
     puts "Thank you for returning #{book.title}."
   end
 end
@@ -105,17 +104,9 @@ class Book
     @borrower = nil
   end
 
-  # def status
-  #   @status
-  # end
-
   def status=(new_value)
     @status = new_value
   end
-
-  # def borrower
-  #   @borrower
-  # end
 
   def borrower=(new_value)
     @borrower = new_value
