@@ -8,7 +8,7 @@ class Library
   end
 
   def list_books
-    @books.each { |book| puts book.title + " by " + book.author + " is " + book.status}
+    @books.each { |book| puts book.title + " by " + book.author + " is " + book.status + "." }
       
     # neatly list name of books with author and their status
   end
@@ -16,7 +16,7 @@ class Library
   def borrowed_books
     @books.each { |book| 
     if book.status == "checked out"
-      puts book.title + " is currently checked out by #{book.borrower.name}."
+      puts book.title + " is checked out by #{book.borrower.name}."
     end
     }
     # show list of books with their borrowers
@@ -25,7 +25,7 @@ class Library
   def available_books
     @books.each { |book| 
     if book.status == "available"
-      puts book.title + " is currently available."
+      puts book.title + " is available."
     end
     }
     # show only those books with a status of checked_in
@@ -47,26 +47,19 @@ class Library
       book.borrower = user
       book.status = "checked out"
       user.borrowed_books << book
-      puts "#{user.name} has checked out #{book.title} by #{book.author}."
+      puts "#{user.name} checked out #{book.title} by #{book.author}."
     else 
       puts "Sorry, that book is not available!"
     end
 
-    # if (@books.include?(book)) 
-    #   puts "#{book} is available for checkout to #{user}."
-    # if book is still in library proceed with check out
-    # else return, "That book is already checked out"
-    #   or just return status of book
-    # if Borrower has less than 2 books, check out book
-
-    # and add to borrower's borrowed_books
-    # If Borrower already has 2 books, do not allow check out and 
-    # do not change status
-    # end
-
   end
 
   def check_in(book)
+    book_index = @books.find_index(book)  #find index of book being checked in
+    @books.delete_at(book_index)  #delete book from books array
+    book.status = "available"
+    #delete book from borrower's books
+    puts "Thank you for returning #{book.title}."
   end
 end
 
@@ -92,7 +85,9 @@ class Borrower
   end
 
   def borrowed_books_list
-
+    @borrowed_books.each { |book| 
+      puts book.title + " by " + book.author + "."
+    }
     # neatly list items in borrowed_books
   end
 end
@@ -100,8 +95,8 @@ end
 class Book
   attr_reader :title  #makes Book.title accessible throughout
   attr_reader :author #makes Book.author accessible throughout
-  # attr_accessor :status #makes Book.status accessible throughout
-  # attr_accessor :borrower #makes Book.borrower accessible throughout
+  attr_accessor :status #makes Book.status accessible throughout
+  attr_accessor :borrower #makes Book.borrower accessible throughout
 
   def initialize(title, author)
     @title = title
@@ -110,17 +105,17 @@ class Book
     @borrower = nil
   end
 
-  def status
-    @status
-  end
+  # def status
+  #   @status
+  # end
 
   def status=(new_value)
     @status = new_value
   end
 
-  def borrower
-    @borrower
-  end
+  # def borrower
+  #   @borrower
+  # end
 
   def borrower=(new_value)
     @borrower = new_value
