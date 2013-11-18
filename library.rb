@@ -5,13 +5,15 @@ class Library
     @books = []
   end
 
+  # List Books within books Array by their title, author, and status.
+
   def list_books
     @books.each { |book| puts book.title + " by " + book.author + " is " + book.status + "." }
-      
-    # neatly list name of books with author and their status
   end
 
-  def borrowed_books # show list of books with their borrowers
+  # List each borrowed Book within Library's books Array with thier borrowers.
+
+  def borrowed_books
     @books.each { |book| 
     if book.status == "checked out"
       puts book.title + " is checked out by #{book.borrower.name}."
@@ -19,23 +21,28 @@ class Library
     }
   end
 
+  # List each book within Library's books Array with a status of available.
+
   def available_books
     @books.each { |book| 
     if book.status == "available"
-      puts book.title + " is available."
+      puts book.title +  " by " + book.author +  " is available."
     end
     }
-    # show only those books with a status of checked_in
   end
+
+  # Add book to Library's books Array by use of book name.
 
   def add_book(book)
-    @books << book  #adds book to books array within library
-    puts "Your library now has #{book.title} by #{book.author}."
-    # puts book.author
+    @books << book
+    puts "Your library now has \"#{book.title}\" by #{book.author}."
   end
 
+  # Do not allow check_out to user with 2 books.
+  # If allowed, check that book is available.
+  # If book is available, add to user's borrowed_books Array and change status for Book to checked-out.
+
   def check_out(user, book)
-    # user = book.borrower
     if user.borrowed_books.length == 2
       return puts "Sorry, that user already has two books checked out!"
     end  
@@ -50,6 +57,9 @@ class Library
     end
 
   end
+
+  # Delete book by name from within the user's borrowed_books Array.
+  # Change status of book in library Array back to "available".
 
   def check_in(book)
     book.borrower.borrowed_books.delete(book)
@@ -69,37 +79,36 @@ class Borrower
     @borrowed_books = []
   end
 
+  # Count number of books user has checked out of Library.
+
   def borrowed_books_count
     @borrowed_books.length
   end
+
+  # List books with the Borrower's borrowed_books Array.
 
   def borrowed_books_list
     @borrowed_books.each { |book| 
       puts book.title + " by " + book.author + "."
     }
-    # neatly list items in borrowed_books
   end
 end
 
 class Book
-  attr_reader :title  #makes Book.title accessible throughout
-  attr_reader :author #makes Book.author accessible throughout
-  attr_accessor :status #makes Book.status accessible throughout
-  attr_accessor :borrower #makes Book.borrower accessible throughout
+  attr_reader :title
+  attr_reader :author
+  attr_accessor :status
+  attr_accessor :borrower
+  attr_accessor :year_published
+  attr_accessor :edition
 
   def initialize(title, author)
     @title = title
     @author = author
     @status = "available"
     @borrower = nil
-  end
-
-  def status=(new_value)
-    @status = new_value
-  end
-
-  def borrower=(new_value)
-    @borrower = new_value
+    @year_published = nil
+    @edition = nil
   end
 
 end
